@@ -30,9 +30,9 @@ public class GenerateExcelController {
         ArrayList<String> allergenList = new ArrayList<>();
         ArrayList<String> foodTypeList = new ArrayList<>();
 
-        categoryAndSubCategory.put("countries", new ArrayList<>(Arrays.asList("india", "canada", "Germany")));
-        categoryAndSubCategory.put("vegetables", new ArrayList<>(Arrays.asList("potato", "tomato", "carrot")));
-        categoryAndSubCategory.put("fruits", new ArrayList<>(Arrays.asList("banana", "apple", "grapes")));
+        categoryAndSubCategory.put("World Countries", new ArrayList<>(Arrays.asList("india", "canada", "Germany")));
+        categoryAndSubCategory.put("Exotic,Vegitables", new ArrayList<>(Arrays.asList("potato", "tomato", "carrot")));
+        categoryAndSubCategory.put("Fruits, Beverages", new ArrayList<>(Arrays.asList("banana", "apple", "grapes")));
 
         brandNameList.addAll(Arrays.asList("Brand-A","Brand-B","Brand-C"));
         countryOfOriginList.addAll(Arrays.asList("Country - A","Country - B", "Country - C"));

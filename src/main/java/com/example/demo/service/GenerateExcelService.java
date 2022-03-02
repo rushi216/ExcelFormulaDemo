@@ -70,8 +70,11 @@ public class GenerateExcelService {
 
         //data validations
         DataValidationHelper dvHelper = productInformationSheet.getDataValidationHelper();
+
+
         //data validation for categories in B2:
-        DataValidationConstraint dvConstraint = dvHelper.createFormulaListConstraint("Categories");
+        DataValidationConstraint dvConstraint = dvHelper.createFormulaListConstraint("ListSheet!$A$1:$C$1");
+        
         CellRangeAddressList addressList = new CellRangeAddressList(1, MAX_ROWS_WITH_DROPDOWN-1, 1, 1);
         DataValidation validation = dvHelper.createValidation(dvConstraint, addressList);
         productInformationSheet.addValidationData(validation);
@@ -79,7 +82,10 @@ public class GenerateExcelService {
 
         for (int i = 2; i <= MAX_ROWS_WITH_DROPDOWN; ++i) {
             //data validation for items of the selected category in B2:
-            dvConstraint = dvHelper.createFormulaListConstraint("INDIRECT($B$"+i+")");
+            
+            String formulaString = "=INDIRECT(SUBSTITUTE(SUBSTITUTE($B$" + i + ",\" \",\"_\"), \",\", \"_\"))";
+
+            dvConstraint = dvHelper.createFormulaListConstraint(formulaString);
             addressList = new CellRangeAddressList(i-1, i-1, 2, 2);
             validation = dvHelper.createValidation(dvConstraint, addressList);
             productInformationSheet.addValidationData(validation);
@@ -224,7 +230,9 @@ public class GenerateExcelService {
             //create names for the item list constraints, each named from the current key
             colLetter = CellReference.convertNumToColString(c);
             namedRange = workbook.createName();
-            namedRange.setNameName(key);
+            String newKey = key.replace(",", "_");
+            newKey = newKey.replace(" ", "_");
+            namedRange.setNameName(newKey);
             reference = "ListSheet!$" + colLetter + "$2:$" + colLetter + "$" + r;
             namedRange.setRefersToFormula(reference);
             c++;
@@ -232,10 +240,10 @@ public class GenerateExcelService {
 
         //create name for Categories list constraint
         colLetter = CellReference.convertNumToColString((c-1));
-        namedRange = workbook.createName();
-        namedRange.setNameName("Categories");
+        //namedRange = workbook.createName();
+        //namedRange.setNameName("Categories");
         reference = "ListSheet!$A$1:$" + colLetter + "$1";
-        namedRange.setRefersToFormula(reference);
+        //namedRange.setRefersToFormula(reference);
 
         //unselect that sheet because we will hide it later
         sheet.setSelected(false);
